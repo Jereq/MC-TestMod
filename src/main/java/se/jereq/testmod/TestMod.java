@@ -1,7 +1,5 @@
 package se.jereq.testmod;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -9,7 +7,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import se.jereq.testmod.client.handler.KeyInputEventHandler;
 import se.jereq.testmod.handler.ConfigurationHandler;
 import se.jereq.testmod.handler.CraftingHandler;
@@ -49,12 +46,7 @@ public class TestMod {
 	public void init(FMLInitializationEvent event) {
 		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
 
-		if (event.getSide() == Side.CLIENT) {
-			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-
-			ModItems.registerRenders(renderItem);
-			ModBlocks.registerRenders(renderItem);
-		}
+		proxy.registerRenders();
 
 		ModRecipes.addRecipes();
 
