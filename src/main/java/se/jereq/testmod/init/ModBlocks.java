@@ -38,7 +38,7 @@ public class ModBlocks {
 	}
 
 	private static void registerBlock(ItemModelMesher mesher, BlockBase block, int meta) {
-		mesher.register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(Reference.MOD_ID + ":" + ((BlockTest) block).getName(), "inventory"));
+		mesher.register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(Reference.MOD_ID + ":" + block.getName(), "inventory"));
 	}
 
 	@SideOnly(Side.CLIENT)

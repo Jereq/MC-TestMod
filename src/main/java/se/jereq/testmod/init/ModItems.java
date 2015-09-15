@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import se.jereq.testmod.item.ItemBase;
+import se.jereq.testmod.item.ItemBlasterRifle;
 import se.jereq.testmod.item.ItemTest;
 import se.jereq.testmod.reference.Reference;
 
@@ -14,10 +15,12 @@ import se.jereq.testmod.reference.Reference;
 public class ModItems {
 
 	public static final ItemBase testItem = new ItemTest();
+	public static final ItemBase blasterRifle = new ItemBlasterRifle();
 
 	private static final class Hidden {
 		private static final ItemBase[] items = new ItemBase[]{
 				testItem,
+				blasterRifle,
 		};
 	}
 
@@ -37,7 +40,7 @@ public class ModItems {
 	}
 
 	private static void registerItem(ItemModelMesher mesher, ItemBase item, int meta) {
-		mesher.register(item, meta, new ModelResourceLocation(Reference.MOD_ID + ":" + ((ItemTest) item).getName(), "inventory"));
+		mesher.register(item, meta, new ModelResourceLocation(Reference.MOD_ID + ":" + item.getName(), "inventory"));
 	}
 
 	@SideOnly(Side.CLIENT)
