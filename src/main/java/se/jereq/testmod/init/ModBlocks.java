@@ -37,11 +37,11 @@ public class ModBlocks {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private static void registerBlock(ItemModelMesher mesher, BlockBase block, int meta) {
 		mesher.register(Item.getItemFromBlock(block), meta, new ModelResourceLocation(Reference.MOD_ID + ":" + block.getName(), "inventory"));
 	}
 
-	@SideOnly(Side.CLIENT)
 	private static void register(BlockBase block) {
 		GameRegistry.registerBlock(block, block.getName());
 	}
