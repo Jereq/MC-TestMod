@@ -6,6 +6,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import se.jereq.testmod.CreativeTab;
 import se.jereq.testmod.item.ItemBase;
 import se.jereq.testmod.item.ItemBlasterRifle;
 import se.jereq.testmod.item.ItemTest;
@@ -16,11 +17,13 @@ public class ModItems {
 
 	public static final ItemBase testItem = new ItemTest();
 	public static final ItemBase blasterRifle = new ItemBlasterRifle();
+	public static final ItemBase blasterAmmo = (ItemBase) new ItemBase("blasterAmmo").setCreativeTab(CreativeTab.TEST_TAB);
 
 	private static final class Hidden {
 		private static final ItemBase[] items = new ItemBase[]{
 				testItem,
 				blasterRifle,
+				blasterAmmo,
 		};
 	}
 

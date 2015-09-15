@@ -2,6 +2,7 @@
 achievement.testmod.test=Go You!
 achievement.testmod.test.desc=On second thought, what's the deal?
 
+item.testmod_blasterAmmo.name=Blaster Ammo
 item.testmod_blasterRifle.name=Blaster Rifle
 item.testmod_testItem.name=Test Item
 
