@@ -9,11 +9,17 @@ public class ItemBase extends Item {
 
 	public ItemBase(String name) {
 		super();
-		this.name = name;
-		setUnlocalizedName(Reference.MOD_ID + "_" + name);
+		setUnlocalizedName(name);
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public ItemBase setUnlocalizedName(String unlocalizedName) {
+		this.name = unlocalizedName;
+		super.setUnlocalizedName(Reference.MOD_ID + "_" + unlocalizedName);
+		return this;
 	}
 }
