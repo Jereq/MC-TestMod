@@ -7,7 +7,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import se.jereq.testmod.client.handler.KeyInputEventHandler;
+import se.jereq.testmod.entity.EntityBlasterBolt;
 import se.jereq.testmod.handler.ConfigurationHandler;
 import se.jereq.testmod.handler.CraftingHandler;
 import se.jereq.testmod.init.ModAchievements;
@@ -38,6 +40,7 @@ public class TestMod {
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
 		ModAchievements.init();
+		EntityRegistry.registerModEntity(EntityBlasterBolt.class, EntityBlasterBolt.name, 0, this, 120, 3, true);
 
 		LogHelper.info("Pre Initialization Complete!");
 	}
