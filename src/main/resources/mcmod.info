@@ -1,0 +1,16 @@
+[
+{
+  "modid": "testmod",
+  "name": "Jereq's Test Mod",
+  "description": "Just me messing around",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Jereq"],
+  "credits": "",
+  "logoFile": "assets/testmod/textures/gui/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

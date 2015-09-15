@@ -1,0 +1,68 @@
+package se.jereq.testmod;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import se.jereq.testmod.client.handler.KeyInputEventHandler;
+import se.jereq.testmod.handler.ConfigurationHandler;
+import se.jereq.testmod.handler.CraftingHandler;
+import se.jereq.testmod.init.ModAchievements;
+import se.jereq.testmod.init.ModBlocks;
+import se.jereq.testmod.init.ModItems;
+import se.jereq.testmod.init.ModRecipes;
+import se.jereq.testmod.proxy.IProxy;
+import se.jereq.testmod.reference.Reference;
+import se.jereq.testmod.util.LogHelper;
+
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, guiFactory = Reference.GUI_FACTORY_CLASS)
+public class TestMod {
+
+	@Mod.Instance(Reference.MOD_ID)
+	public static TestMod instance;
+
+	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
+	public static IProxy proxy;
+
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+		FMLCommonHandler.instance().bus().register(new CraftingHandler());
+
+		proxy.registerKeyBindings();
+
+		ModBlocks.registerBlocks();
+		ModItems.registerItems();
+		ModAchievements.init();
+
+		LogHelper.info("Pre Initialization Complete!");
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+
+		if (event.getSide() == Side.CLIENT) {
+			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
+			ModItems.registerRenders(renderItem);
+			ModBlocks.registerRenders(renderItem);
+		}
+
+		ModRecipes.addRecipes();
+
+		LogHelper.info("Initialization Complete!");
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		LogHelper.info("Post Initialization Complete!");
+	}
+}

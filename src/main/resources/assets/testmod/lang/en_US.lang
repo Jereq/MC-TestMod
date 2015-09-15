@@ -1,0 +1,12 @@
+
+achievement.testmod.test=Go You!
+achievement.testmod.test.desc=On second thought, what's the deal?
+
+item.testmod_testItem.name=Test Item
+
+itemGroup.testmod=Jereq's Test Mod
+
+keys.testmod.ask=Ask for gift
+keys.testmod.category=Jereq's Test Mod
+
+tile.testmod_testBlock.name=Test Block
