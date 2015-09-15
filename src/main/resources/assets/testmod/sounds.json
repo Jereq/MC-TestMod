@@ -1,0 +1,11 @@
+{
+  "launchBlaster": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "launchBlaster",
+        "stream": false
+      }
+    ]
+  }
+}
