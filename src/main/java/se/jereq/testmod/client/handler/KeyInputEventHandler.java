@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import se.jereq.testmod.client.settings.KeyBindings;
 import se.jereq.testmod.init.ModBlocks;
 import se.jereq.testmod.reference.Key;
-import se.jereq.testmod.util.LogHelper;
 
 public class KeyInputEventHandler {
 
