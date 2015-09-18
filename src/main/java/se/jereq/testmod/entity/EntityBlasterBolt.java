@@ -1,13 +1,10 @@
 package se.jereq.testmod.entity;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityBlasterBolt extends EntityThrowable {
@@ -69,15 +66,15 @@ public class EntityBlasterBolt extends EntityThrowable {
 
 	@Override
 	protected void onImpact(MovingObjectPosition hit) {
-		if (hit.entityHit != null)
-		{
-			hit.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 3.f);
-		}
+		//if (hit.entityHit != null)
+		//{
+		//	hit.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 3.f);
+		//}
 
 		if (!this.worldObj.isRemote)
 		{
-			boolean mobGriefing = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
-			this.worldObj.newExplosion(null, hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, 2.f, false, mobGriefing);
+			//boolean mobGriefing = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+			//this.worldObj.newExplosion(null, hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, 2.f, false, mobGriefing);
 			this.setDead();
 		}
 	}
