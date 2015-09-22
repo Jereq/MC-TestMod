@@ -60,6 +60,18 @@ public class EntityBlasterBolt extends Entity {
 
 	@SideOnly(Side.CLIENT)
 	@Override
+	public int getBrightnessForRender(float p_70070_1_) {
+		return 0xffff;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public float getBrightness(float p_70013_1_) {
+		return 1.f;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
 	public boolean isInRangeToRenderDist(double distance) {
 		return true;
 	}
