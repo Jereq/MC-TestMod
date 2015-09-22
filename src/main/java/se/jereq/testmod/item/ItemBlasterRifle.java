@@ -27,8 +27,6 @@ public class ItemBlasterRifle extends ItemBase {
 			worldIn.playSoundAtEntity(playerIn, "testmod:launchBlaster", 0.5f, 0.4f / (itemRand.nextFloat() * 0.4f + 0.8f));
 
 			if (!worldIn.isRemote) {
-				worldIn.spawnEntityInWorld(new EntityBlasterBolt(worldIn, playerIn));
-
 				double maxDist = 100.f;
 
 				Vec3 start = new Vec3(playerIn.posX, playerIn.posY + (double)playerIn.getEyeHeight(), playerIn.posZ);
@@ -109,9 +107,12 @@ public class ItemBlasterRifle extends ItemBase {
 				}
 
 				if (hit != null) {
+					end = hit.hitVec;
 					boolean mobGriefing = worldIn.getGameRules().getGameRuleBooleanValue("mobGriefing");
-					worldIn.newExplosion(null, hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, 2.f, false, mobGriefing);
+					worldIn.newExplosion(null, end.xCoord, end.yCoord, end.zCoord, 2.f, false, mobGriefing);
 				}
+
+				worldIn.spawnEntityInWorld(new EntityBlasterBolt(worldIn, playerIn, end));
 			}
 		}
 

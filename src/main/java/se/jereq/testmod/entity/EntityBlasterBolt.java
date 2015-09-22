@@ -1,53 +1,39 @@
 package se.jereq.testmod.entity;
 
 import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityBlasterBolt extends EntityThrowable {
+public class EntityBlasterBolt extends Entity {
 
 	public static final String name = "testmod_blasterBolt";
 
-	public long boltVertex;
-	public double startX;
-	public double startY;
-	public double startZ;
-
 	public EntityBlasterBolt(World worldIn) {
 		super(worldIn);
-		boltVertex = this.rand.nextLong();
-		startX = posX;
-		startY = posY;
-		startZ = posZ;
 
-		DataWatcher dw = getDataWatcher();
-		dw.updateObject(16, (float)startX);
-		dw.updateObject(17, (float)startY);
-		dw.updateObject(18, (float) startZ);
+		setSize(0.3f, 0.3f);
+		ignoreFrustumCheck = true;
 	}
 
-	public EntityBlasterBolt(World worldIn, EntityLivingBase throwerIn) {
-		super(worldIn, throwerIn);
-		boltVertex = this.rand.nextLong();
-		startX = posX;
-		startY = posY;
-		startZ = posZ;
+	public EntityBlasterBolt(World worldIn, EntityLivingBase throwerIn, Vec3 end) {
+		this(worldIn);
 
-		DataWatcher dw = getDataWatcher();
-		dw.updateObject(16, (float)startX);
-		dw.updateObject(17, (float)startY);
-		dw.updateObject(18, (float)startZ);
-	}
+		setLocationAndAngles(
+				end.xCoord,
+				end.yCoord,
+				end.zCoord,
+				throwerIn.rotationYaw,
+				throwerIn.rotationPitch);
 
-	public EntityBlasterBolt(World worldIn, double x, double y, double p_i1778_6_) {
-		super(worldIn, x, y, p_i1778_6_);
-		boltVertex = this.rand.nextLong();
-		startX = posX;
-		startY = posY;
-		startZ = posZ;
+		double startX = throwerIn.posX - (double)(MathHelper.cos(rotationYaw / 180.f * (float)Math.PI) * 0.16f);
+		double startY = throwerIn.posY + (double) throwerIn.getEyeHeight() - 0.1;
+		double startZ = throwerIn.posZ - (double) (MathHelper.sin(rotationYaw / 180.f * (float) Math.PI) * 0.16f);
 
 		DataWatcher dw = getDataWatcher();
 		dw.updateObject(16, (float)startX);
@@ -57,7 +43,6 @@ public class EntityBlasterBolt extends EntityThrowable {
 
 	@Override
 	protected void entityInit() {
-		super.entityInit();
 		DataWatcher dw = getDataWatcher();
 		dw.addObject(16, 0.f);
 		dw.addObject(17, 0.f);
@@ -65,40 +50,23 @@ public class EntityBlasterBolt extends EntityThrowable {
 	}
 
 	@Override
-	protected void onImpact(MovingObjectPosition hit) {
-		//if (hit.entityHit != null)
-		//{
-		//	hit.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 3.f);
-		//}
-
-		if (!this.worldObj.isRemote)
-		{
-			//boolean mobGriefing = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
-			//this.worldObj.newExplosion(null, hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, 2.f, false, mobGriefing);
-			this.setDead();
+	public void onUpdate() {
+		super.onUpdate();
+		final int lifeTime = 200;
+		if (this.ticksExisted > lifeTime) {
+			setDead();
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
-	protected float getGravityVelocity() {
-		return 0.f;
+	public boolean isInRangeToRenderDist(double distance) {
+		return true;
 	}
 
 	@Override
-	protected float getVelocity() {
-		return 6.f;
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	@Override
-	public void writeEntityToNBT(NBTTagCompound tagCompound)
-	{
-		super.writeEntityToNBT(tagCompound);
-		tagCompound.setDouble("startX", startX);
-		tagCompound.setDouble("startY", startY);
-		tagCompound.setDouble("startZ", startZ);
+	public boolean writeToNBTOptional(NBTTagCompound tagCompund) {
+		return false;
 	}
 
 	/**
@@ -107,14 +75,25 @@ public class EntityBlasterBolt extends EntityThrowable {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound)
 	{
-		super.readEntityFromNBT(tagCompound);
-		startX = tagCompound.getDouble("startX");
-		startY = tagCompound.getDouble("startY");
-		startZ = tagCompound.getDouble("startZ");
+		double startX = tagCompound.getDouble("startX");
+		double startY = tagCompound.getDouble("startY");
+		double startZ = tagCompound.getDouble("startZ");
 
 		DataWatcher dw = getDataWatcher();
-		dw.updateObject(16, (float)startX);
-		dw.updateObject(17, (float)startY);
-		dw.updateObject(18, (float)startZ);
+		dw.updateObject(16, (float) startX);
+		dw.updateObject(17, (float) startY);
+		dw.updateObject(18, (float) startZ);
+	}
+
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	@Override
+	public void writeEntityToNBT(NBTTagCompound tagCompound)
+	{
+		DataWatcher dw = getDataWatcher();
+		tagCompound.setDouble("startX", dw.getWatchableObjectFloat(16));
+		tagCompound.setDouble("startY", dw.getWatchableObjectFloat(17));
+		tagCompound.setDouble("startZ", dw.getWatchableObjectFloat(18));
 	}
 }
