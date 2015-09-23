@@ -17,7 +17,7 @@ public class EntityBlasterBolt extends Entity {
 	public EntityBlasterBolt(World worldIn) {
 		super(worldIn);
 
-		setSize(0.3f, 0.3f);
+		setSize(0.f, 0.f);
 		ignoreFrustumCheck = true;
 	}
 
@@ -36,9 +36,9 @@ public class EntityBlasterBolt extends Entity {
 		double startZ = throwerIn.posZ - (double) (MathHelper.sin(rotationYaw / 180.f * (float) Math.PI) * 0.16f);
 
 		DataWatcher dw = getDataWatcher();
-		dw.updateObject(16, (float)startX);
-		dw.updateObject(17, (float)startY);
-		dw.updateObject(18, (float)startZ);
+		dw.updateObject(16, (float) startX);
+		dw.updateObject(17, (float) startY);
+		dw.updateObject(18, (float) startZ);
 	}
 
 	@Override
@@ -99,6 +99,14 @@ public class EntityBlasterBolt extends Entity {
 		dw.updateObject(16, (float) startX);
 		dw.updateObject(17, (float) startY);
 		dw.updateObject(18, (float) startZ);
+	}
+
+	// Handle position and rotation update packets?!
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void func_180426_a(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_) {
+		this.setPosition(x, y, z);
+		this.setRotation(yaw, pitch);
 	}
 
 	/**
