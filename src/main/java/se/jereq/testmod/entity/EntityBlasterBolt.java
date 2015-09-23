@@ -52,7 +52,7 @@ public class EntityBlasterBolt extends Entity {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		final int lifeTime = 200;
+		final int lifeTime = 5;
 		if (this.ticksExisted > lifeTime) {
 			setDead();
 		}
@@ -60,8 +60,12 @@ public class EntityBlasterBolt extends Entity {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public int getBrightnessForRender(float p_70070_1_) {
-		return 0xffff;
+	public int getBrightnessForRender(float partialTicks) {
+		int lightAtBlock = super.getBrightnessForRender(partialTicks);
+		int skyLight = lightAtBlock >> 16 & 255;
+		int blockLight = 240;
+
+		return blockLight | skyLight << 16;
 	}
 
 	@SideOnly(Side.CLIENT)
