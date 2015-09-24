@@ -12,3 +12,6 @@ keys.testmod.ask=Ask for gift
 keys.testmod.category=Jereq's Test Mod
 
 tile.testmod_testBlock.name=Test Block
+
+tooltip.rechargeable=Rechargeable
+tooltip.requiresBatteries=Requires batteries to use

@@ -5,8 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import se.jereq.testmod.CreativeTab;
 import se.jereq.testmod.entity.EntityBlasterBolt;
 import se.jereq.testmod.init.ModItems;
@@ -21,6 +23,19 @@ public class ItemBlasterRifle extends ItemBase {
 		super("blasterRifle");
 		setCreativeTab(CreativeTab.TEST_TAB);
 		maxStackSize = 1;
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
+		super.addInformation(stack, playerIn, tooltip, advanced);
+
+		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND)) {
+			tooltip.add(StatCollector.translateToLocal("tooltip.rechargeable"));
+			ItemStack battery = ItemStack.loadItemStackFromNBT(stack.getSubCompound(rechargeableTagKey, false));
+			tooltip.addAll(battery.getTooltip(playerIn, advanced));
+		} else {
+			tooltip.add(StatCollector.translateToLocal("tooltip.requiresBatteries"));
+		}
 	}
 
 	@Override
