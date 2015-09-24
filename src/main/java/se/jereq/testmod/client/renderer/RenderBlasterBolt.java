@@ -11,17 +11,16 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import se.jereq.testmod.entity.EntityBlasterBolt;
 
-import java.util.Random;
-
 public class RenderBlasterBolt extends Render {
+
+	private static final float[] color = {1.f, 0.f, 0.f};
 
 	public RenderBlasterBolt(RenderManager renderManager) {
 		super(renderManager);
 	}
 
-	public void doRender(EntityBlasterBolt entity, double x, double y, double z, float rotation, float partialTicks) {
+	public void doRender(EntityBlasterBolt entity, double x, double y, double z, float partialTicks) {
 		Tessellator tessellator = Tessellator.getInstance();
-		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.f);
@@ -32,8 +31,6 @@ public class RenderBlasterBolt extends Render {
 		double startX = dw.getWatchableObjectFloat(16);
 		double startY = dw.getWatchableObjectFloat(17);
 		double startZ = dw.getWatchableObjectFloat(18);
-
-		float[] color = {1.f, 0.f, 0.f};
 
 		double origX = x - (entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks);
 		double origY = y - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks);
@@ -91,6 +88,7 @@ public class RenderBlasterBolt extends Render {
 			side2Z = -deltaY * deltaZ;
 		} else {
 			side1X = -deltaY;
+			//noinspection SuspiciousNameCombination
 			side1Y = deltaX;
 			side1Z = 0;
 
@@ -160,6 +158,6 @@ public class RenderBlasterBolt extends Render {
 
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float rotation, float partialTicks) {
-		this.doRender((EntityBlasterBolt) entity, x, y, z, rotation, partialTicks);
+		this.doRender((EntityBlasterBolt) entity, x, y, z, partialTicks);
 	}
 }

@@ -82,7 +82,7 @@ public class EntityBlasterBolt extends Entity {
 	}
 
 	@Override
-	public boolean writeToNBTOptional(NBTTagCompound tagCompund) {
+	public boolean writeToNBTOptional(NBTTagCompound tagCompound) {
 		return false;
 	}
 
