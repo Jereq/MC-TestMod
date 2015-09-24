@@ -14,6 +14,9 @@ import se.jereq.testmod.init.ModItems;
 import java.util.List;
 
 public class ItemBlasterRifle extends ItemBase {
+
+	public static final String rechargeableTagKey = "RechargeableBattery";
+
 	public ItemBlasterRifle() {
 		super("blasterRifle");
 		setCreativeTab(CreativeTab.TEST_TAB);

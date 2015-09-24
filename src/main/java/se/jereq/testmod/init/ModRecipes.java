@@ -3,6 +3,9 @@ package se.jereq.testmod.init;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
+import se.jereq.testmod.recipe.AddRechargeableBatteryRecipe;
+import se.jereq.testmod.recipe.RemoveRechargeableBatteryRecipe;
 
 public class ModRecipes {
 	public static void addRecipes() {
@@ -28,5 +31,12 @@ public class ModRecipes {
 				"  I",
 				'I', Items.iron_ingot,
 				'F', Items.flint_and_steel);
+
+		RecipeSorter.register("testmod:add_rechargeable_battery", AddRechargeableBatteryRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		GameRegistry.addRecipe(new AddRechargeableBatteryRecipe());
+
+		RecipeSorter.register("testmod:remove_rechargeable_battery", RemoveRechargeableBatteryRecipe.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+		GameRegistry.addRecipe(new RemoveRechargeableBatteryRecipe());
 	}
+
 }
