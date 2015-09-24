@@ -24,6 +24,7 @@ public class RenderBlasterBolt extends Render {
 		WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 		GlStateManager.disableTexture2D();
 		GlStateManager.disableLighting();
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.f);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(770, 1);
 
@@ -38,9 +39,11 @@ public class RenderBlasterBolt extends Render {
 		double origY = y - (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks);
 		double origZ = z - (entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks);
 
+		float alpha = entity.getOpacity(partialTicks);
+
 		for (int layer = 0; layer < 4; ++layer) {
 			generateBar(tessellator, origX + startX, origY + startY, origZ + startZ, x, y, z,
-					layer * 0.01 + 0.01, color[0], color[1], color[2], 0.3F);
+					layer * 0.01 + 0.01, color[0], color[1], color[2], alpha);
 		}
 
 		GlStateManager.disableBlend();

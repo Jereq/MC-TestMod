@@ -14,6 +14,8 @@ public class EntityBlasterBolt extends Entity {
 
 	public static final String name = "testmod_blasterBolt";
 
+	private static final int lifeTime = 40;
+
 	public EntityBlasterBolt(World worldIn) {
 		super(worldIn);
 
@@ -52,7 +54,6 @@ public class EntityBlasterBolt extends Entity {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		final int lifeTime = 5;
 		if (this.ticksExisted > lifeTime) {
 			setDead();
 		}
@@ -119,5 +120,9 @@ public class EntityBlasterBolt extends Entity {
 		tagCompound.setDouble("startX", dw.getWatchableObjectFloat(16));
 		tagCompound.setDouble("startY", dw.getWatchableObjectFloat(17));
 		tagCompound.setDouble("startZ", dw.getWatchableObjectFloat(18));
+	}
+
+	public float getOpacity(float partialTicks) {
+		return (1.f - (float)Math.log(ticksExisted + partialTicks) / (float)Math.log(lifeTime + 1));
 	}
 }
