@@ -22,16 +22,19 @@ public class ItemBlasterRifle extends ItemBase {
 	public ItemBlasterRifle() {
 		super("blasterRifle");
 		setCreativeTab(CreativeTab.TEST_TAB);
+		setTextureName("testmod:blasterRifle");
+		setContainerItem(this);
 		maxStackSize = 1;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
 		super.addInformation(stack, playerIn, tooltip, advanced);
 
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND)) {
 			tooltip.add(StatCollector.translateToLocal("tooltip.rechargeable"));
-			ItemStack battery = ItemStack.loadItemStackFromNBT(stack.getSubCompound(rechargeableTagKey, false));
+			ItemStack battery = ItemStack.loadItemStackFromNBT(stack.getTagCompound().getCompoundTag(rechargeableTagKey));
 			tooltip.addAll(battery.getTooltip(playerIn, advanced));
 		} else {
 			tooltip.add(StatCollector.translateToLocal("tooltip.requiresBatteries"));
@@ -47,12 +50,12 @@ public class ItemBlasterRifle extends ItemBase {
 			if (!worldIn.isRemote) {
 				double maxDist = 200.f;
 
-				Vec3 start = new Vec3(playerIn.posX, playerIn.posY + (double)playerIn.getEyeHeight(), playerIn.posZ);
+				Vec3 start = Vec3.createVectorHelper(playerIn.posX, playerIn.posY + (double)playerIn.getEyeHeight(), playerIn.posZ);
 				Vec3 dir = playerIn.getLook(1.f);
 				Vec3 end = start.addVector(dir.xCoord * maxDist, dir.yCoord * maxDist, dir.zCoord * maxDist);
 
-				Vec3 rayStart = new Vec3(start.xCoord, start.yCoord, start.zCoord);
-				Vec3 rayEnd = new Vec3(end.xCoord, end.yCoord, end.zCoord);
+				Vec3 rayStart = Vec3.createVectorHelper(start.xCoord, start.yCoord, start.zCoord);
+				Vec3 rayEnd = Vec3.createVectorHelper(end.xCoord, end.yCoord, end.zCoord);
 
 				MovingObjectPosition hit = worldIn.rayTraceBlocks(rayStart, rayEnd, false, false, true);
 
@@ -85,7 +88,14 @@ public class ItemBlasterRifle extends ItemBase {
 					double endY = currStartY + stepY;
 					double endZ = currStartZ + stepZ;
 
-					AxisAlignedBB aabb = new AxisAlignedBB(currStartX, currStartY, currStartZ, endX, endY, endZ);
+					AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(
+							Math.min(currStartX, endX),
+							Math.min(currStartY, endY),
+							Math.min(currStartZ, endZ),
+							Math.max(currStartX, endX),
+							Math.max(currStartY, endY),
+							Math.max(currStartZ, endZ)
+						);
 					@SuppressWarnings("unchecked") // Generics stripped by obfuscation
 					List<Entity> entities = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, aabb);
 
@@ -94,14 +104,14 @@ public class ItemBlasterRifle extends ItemBase {
 					currStartZ = endZ;
 
 					double distanceToClosestEntity = Double.POSITIVE_INFINITY;
-					Entity closestEntity = null;
+					MovingObjectPosition closestEntityHit = null;
 
 					for (Entity target : entities)
 					{
 						if (target.canBeCollidedWith())
 						{
 							double margin = 0.3;
-							AxisAlignedBB targetAABB = target.getEntityBoundingBox().expand(margin, margin, margin);
+							AxisAlignedBB targetAABB = target.boundingBox.expand(margin, margin, margin);
 							MovingObjectPosition intercept = targetAABB.calculateIntercept(start, end);
 
 							if (intercept != null)
@@ -110,16 +120,16 @@ public class ItemBlasterRifle extends ItemBase {
 
 								if (distanceToEntity < distanceToClosestEntity)
 								{
-									closestEntity = target;
+									closestEntityHit = intercept;
 									distanceToClosestEntity = distanceToEntity;
 								}
 							}
 						}
 					}
 
-					if (closestEntity != null)
+					if (closestEntityHit != null)
 					{
-						hit = new MovingObjectPosition(closestEntity);
+						hit = closestEntityHit;
 						break;
 					}
 				}
@@ -135,5 +145,26 @@ public class ItemBlasterRifle extends ItemBase {
 		}
 
 		return itemStackIn;
+	}
+
+	@Override
+	public boolean hasContainerItem(ItemStack stack) {
+		return stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND);
+	}
+
+	@Override
+	public ItemStack getContainerItem(ItemStack itemStack) {
+		if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND)) {
+			ItemStack copy = itemStack.copy();
+			copy.getTagCompound().removeTag(rechargeableTagKey);
+			return copy;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
+		return false;
 	}
 }

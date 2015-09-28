@@ -1,5 +1,7 @@
 package se.jereq.testmod.entity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,8 +9,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBlasterBolt extends Entity {
 
@@ -105,7 +105,7 @@ public class EntityBlasterBolt extends Entity {
 	// Handle position and rotation update packets?!
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void func_180426_a(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_) {
+	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int rotationIncrements) {
 		this.setPosition(x, y, z);
 		this.setRotation(yaw, pitch);
 	}

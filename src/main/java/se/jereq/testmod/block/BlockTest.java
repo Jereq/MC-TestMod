@@ -8,6 +8,7 @@ public class BlockTest extends BlockBase {
 	public BlockTest() {
 		super(Material.ice, "testBlock");
 		setCreativeTab(CreativeTab.TEST_TAB);
+		setTextureName("testmod:testBlock");
 		setLightLevel(1.f);
 		setHardness(0.3f);
 	}

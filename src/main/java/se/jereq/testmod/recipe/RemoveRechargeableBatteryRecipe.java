@@ -73,7 +73,7 @@ public class RemoveRechargeableBatteryRecipe implements IRecipe {
 			return null;
 		}
 
-		return ItemStack.loadItemStackFromNBT(foundRechargeableRifle.getSubCompound(ItemBlasterRifle.rechargeableTagKey, false));
+		return ItemStack.loadItemStackFromNBT(foundRechargeableRifle.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
 	}
 
 	@Override
@@ -84,24 +84,5 @@ public class RemoveRechargeableBatteryRecipe implements IRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
-	}
-
-	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
-		ItemStack[] result = new ItemStack[inventory.getSizeInventory()];
-
-		for (int i = 0; i < result.length; ++i)
-		{
-			ItemStack itemstack = inventory.getStackInSlot(i);
-			if (itemstack != null && itemstack.getItem() == ModItems.blasterRifle) {
-				ItemStack nonRechargeableRifle = itemstack.copy();
-				nonRechargeableRifle.getTagCompound().removeTag(ItemBlasterRifle.rechargeableTagKey);
-				result[i] = nonRechargeableRifle;
-			} else {
-				result[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
-			}
-		}
-
-		return result;
 	}
 }

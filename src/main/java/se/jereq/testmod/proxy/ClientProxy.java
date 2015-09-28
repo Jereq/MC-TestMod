@@ -1,10 +1,9 @@
 package se.jereq.testmod.proxy;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import se.jereq.testmod.client.renderer.RenderBlasterBolt;
 import se.jereq.testmod.client.settings.KeyBindings;
 import se.jereq.testmod.entity.EntityBlasterBolt;
@@ -21,12 +20,9 @@ public final class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenders() {
 		Minecraft minecraft = Minecraft.getMinecraft();
-		RenderItem renderItem = minecraft.getRenderItem();
-		RenderManager renderManager = minecraft.getRenderManager();
 
-		ModItems.registerRenders(renderItem);
-		ModBlocks.registerRenders(renderItem);
+		ModItems.registerRenders();
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlasterBolt.class, new RenderBlasterBolt(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlasterBolt.class, new RenderBlasterBolt());
 	}
 }

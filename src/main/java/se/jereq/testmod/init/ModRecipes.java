@@ -1,8 +1,8 @@
 package se.jereq.testmod.init;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
 import se.jereq.testmod.recipe.AddRechargeableBatteryRecipe;
 import se.jereq.testmod.recipe.RemoveRechargeableBatteryRecipe;

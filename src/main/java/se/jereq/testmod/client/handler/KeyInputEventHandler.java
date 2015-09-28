@@ -1,9 +1,9 @@
 package se.jereq.testmod.client.handler;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import se.jereq.testmod.client.settings.KeyBindings;
 import se.jereq.testmod.init.ModBlocks;
 import se.jereq.testmod.reference.Key;

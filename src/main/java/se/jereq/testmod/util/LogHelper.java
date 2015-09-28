@@ -1,6 +1,6 @@
 package se.jereq.testmod.util;
 
-import net.minecraftforge.fml.common.FMLLog;
+import cpw.mods.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
 import se.jereq.testmod.reference.Reference;
 

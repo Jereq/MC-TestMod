@@ -87,7 +87,20 @@ public class AddRechargeableBatteryRecipe implements IRecipe {
 		}
 
 		ItemStack result = foundNonRechargeableRifle.copy();
-		NBTTagCompound nbt = result.getSubCompound(ItemBlasterRifle.rechargeableTagKey, true);
+		NBTTagCompound compound = result.getTagCompound();
+		if (compound == null) {
+			compound = new NBTTagCompound();
+			result.setTagCompound(compound);
+		}
+
+		NBTTagCompound nbt;
+		if (!compound.hasKey(ItemBlasterRifle.rechargeableTagKey)) {
+			nbt = new NBTTagCompound();
+			compound.setTag(ItemBlasterRifle.rechargeableTagKey, nbt);
+		} else {
+			nbt = compound.getCompoundTag(ItemBlasterRifle.rechargeableTagKey);
+		}
+
 		if (foundBattery.stackSize > 1) {
 			foundBattery = foundBattery.copy();
 			foundBattery.stackSize = 1;
@@ -104,18 +117,5 @@ public class AddRechargeableBatteryRecipe implements IRecipe {
 	@Override
 	public ItemStack getRecipeOutput() {
 		return null;
-	}
-
-	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inventory) {
-		ItemStack[] result = new ItemStack[inventory.getSizeInventory()];
-
-		for (int i = 0; i < result.length; ++i)
-		{
-			ItemStack itemstack = inventory.getStackInSlot(i);
-			result[i] = net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack);
-		}
-
-		return result;
 	}
 }

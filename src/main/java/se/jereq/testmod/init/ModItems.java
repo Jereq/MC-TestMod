@@ -1,11 +1,9 @@
 package se.jereq.testmod.init;
 
-import net.minecraft.client.renderer.ItemModelMesher;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import se.jereq.testmod.CreativeTab;
 import se.jereq.testmod.item.ItemBase;
 import se.jereq.testmod.item.ItemBlasterRifle;
@@ -17,7 +15,7 @@ public class ModItems {
 
 	public static final ItemBase testItem = new ItemTest();
 	public static final ItemBase blasterRifle = new ItemBlasterRifle();
-	public static final ItemBase blasterAmmo = (ItemBase) new ItemBase("blasterAmmo").setCreativeTab(CreativeTab.TEST_TAB);
+	public static final ItemBase blasterAmmo = (ItemBase) new ItemBase("blasterAmmo").setCreativeTab(CreativeTab.TEST_TAB).setTextureName("testmod:blasterAmmo");
 
 	private static final class Hidden {
 		private static final ItemBase[] items = new ItemBase[]{
@@ -34,17 +32,15 @@ public class ModItems {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static void registerRenders(RenderItem renderItem) {
-		ItemModelMesher mesher = renderItem.getItemModelMesher();
-
+	public static void registerRenders() {
 		for (ItemBase i : Hidden.items) {
-			registerItem(mesher, i, 0);
+			registerItem(i, 0);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void registerItem(ItemModelMesher mesher, ItemBase item, int meta) {
-		mesher.register(item, meta, new ModelResourceLocation(Reference.MOD_ID + ":" + item.getName(), "inventory"));
+	private static void registerItem(ItemBase item, int meta) {
+
 	}
 
 	private static void register(ItemBase item) {

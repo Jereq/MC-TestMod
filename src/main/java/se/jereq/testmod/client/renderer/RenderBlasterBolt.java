@@ -1,10 +1,7 @@
 package se.jereq.testmod.client.renderer;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -15,17 +12,13 @@ public class RenderBlasterBolt extends Render {
 
 	private static final float[] color = {1.f, 0.f, 0.f};
 
-	public RenderBlasterBolt(RenderManager renderManager) {
-		super(renderManager);
-	}
-
 	public void doRender(EntityBlasterBolt entity, double x, double y, double z, float partialTicks) {
-		Tessellator tessellator = Tessellator.getInstance();
-		GlStateManager.disableTexture2D();
-		GlStateManager.disableLighting();
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.f);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(770, 1);
+		Tessellator tessellator = Tessellator.instance;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.f);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
 		DataWatcher dw = entity.getDataWatcher();
 		double startX = dw.getWatchableObjectFloat(16);
@@ -43,9 +36,9 @@ public class RenderBlasterBolt extends Render {
 					layer * 0.01 + 0.01, color[0], color[1], color[2], alpha);
 		}
 
-		GlStateManager.disableBlend();
-		GlStateManager.enableLighting();
-		GlStateManager.enableTexture2D();
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
 	private void generateBar(Tessellator tessellator, double startX, double startY, double startZ, double endX, double endY, double endZ, double size, float r, float g, float b, float a) {
@@ -133,20 +126,19 @@ public class RenderBlasterBolt extends Render {
 		double end3Z = endZ - side1Z * size;
 		double end4Z = endZ - side2Z * size;
 
-		WorldRenderer renderer = tessellator.getWorldRenderer();
-		renderer.startDrawing(GL11.GL_TRIANGLE_STRIP);
-		renderer.setColorRGBA_F(r, g, b, a);
+		tessellator.startDrawing(GL11.GL_TRIANGLE_STRIP);
+		tessellator.setColorRGBA_F(r, g, b, a);
 
-		renderer.addVertex(end1X, end1Y, end1Z);
-		renderer.addVertex(start1X, start1Y, start1Z);
-		renderer.addVertex(end2X, end2Y, end2Z);
-		renderer.addVertex(start2X, start2Y, start2Z);
-		renderer.addVertex(end3X, end3Y, end3Z);
-		renderer.addVertex(start3X, start3Y, start3Z);
-		renderer.addVertex(end4X, end4Y, end4Z);
-		renderer.addVertex(start4X, start4Y, start4Z);
-		renderer.addVertex(end1X, end1Y, end1Z);
-		renderer.addVertex(start1X, start1Y, start1Z);
+		tessellator.addVertex(end1X, end1Y, end1Z);
+		tessellator.addVertex(start1X, start1Y, start1Z);
+		tessellator.addVertex(end2X, end2Y, end2Z);
+		tessellator.addVertex(start2X, start2Y, start2Z);
+		tessellator.addVertex(end3X, end3Y, end3Z);
+		tessellator.addVertex(start3X, start3Y, start3Z);
+		tessellator.addVertex(end4X, end4Y, end4Z);
+		tessellator.addVertex(start4X, start4Y, start4Z);
+		tessellator.addVertex(end1X, end1Y, end1Z);
+		tessellator.addVertex(start1X, start1Y, start1Z);
 
 		tessellator.draw();
 	}
