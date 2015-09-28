@@ -39,7 +39,7 @@ public class TestMod {
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
 		ModAchievements.init();
-		EntityRegistry.registerModEntity(EntityBlasterBolt.class, EntityBlasterBolt.name, 0, this, 120, 100, false);
+		EntityRegistry.registerModEntity(EntityBlasterBolt.class, EntityBlasterBolt.name, 0, this, 160, 100, false);
 
 		LogHelper.info("Pre Initialization Complete!");
 	}

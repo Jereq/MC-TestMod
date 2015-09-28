@@ -19,8 +19,6 @@ public final class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerRenders() {
-		Minecraft minecraft = Minecraft.getMinecraft();
-
 		ModItems.registerRenders();
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlasterBolt.class, new RenderBlasterBolt());

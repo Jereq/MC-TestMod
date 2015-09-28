@@ -48,7 +48,7 @@ public class ItemBlasterRifle extends ItemBase {
 			worldIn.playSoundAtEntity(playerIn, "testmod:launchBlaster", 0.5f, 0.4f / (itemRand.nextFloat() * 0.4f + 0.8f));
 
 			if (!worldIn.isRemote) {
-				double maxDist = 200.f;
+				double maxDist = 128.f;
 
 				Vec3 start = Vec3.createVectorHelper(playerIn.posX, playerIn.posY + (double)playerIn.getEyeHeight(), playerIn.posZ);
 				Vec3 dir = playerIn.getLook(1.f);

@@ -78,7 +78,7 @@ public class EntityBlasterBolt extends Entity {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean isInRangeToRenderDist(double distance) {
-		return true;
+		return distance <= 160.f * 160.f;
 	}
 
 	@Override
