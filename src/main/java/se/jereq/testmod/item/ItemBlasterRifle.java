@@ -57,7 +57,7 @@ public class ItemBlasterRifle extends ItemBase {
 				Vec3 rayStart = Vec3.createVectorHelper(start.xCoord, start.yCoord, start.zCoord);
 				Vec3 rayEnd = Vec3.createVectorHelper(end.xCoord, end.yCoord, end.zCoord);
 
-				MovingObjectPosition hit = worldIn.rayTraceBlocks(rayStart, rayEnd, false, false, true);
+				MovingObjectPosition hit = worldIn.func_147447_a(rayStart, rayEnd, false, false, true);
 
 				if (hit != null) {
 					end = hit.hitVec;

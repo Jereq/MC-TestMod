@@ -11,7 +11,7 @@ public class BlockBase extends Block {
 	protected BlockBase(Material materialIn, String name) {
 		super(materialIn);
 		this.name = name;
-		setUnlocalizedName(Reference.MOD_ID + "_" + name);
+		setBlockName(Reference.MOD_ID + "_" + name);
 	}
 
 	public String getName() {
