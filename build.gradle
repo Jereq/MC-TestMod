@@ -33,6 +33,13 @@ minecraft {
     //mappings = "stable_12"
 }
 
+repositories {
+    maven {
+        name 'chickenbones'
+        url "http://chickenbones.net/maven/"
+    }
+}
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -47,6 +54,12 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+    // http://files.minecraftforge.net/CodeChickenLib/
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
+
+    // http://chickenbones.net/maven
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.7.46:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.111:dev"
 }
 
 processResources
