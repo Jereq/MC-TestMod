@@ -27,12 +27,16 @@ public class ItemBlasterRifle extends ItemBase {
 		maxStackSize = 1;
 	}
 
+	public boolean isRechargeable(ItemStack stack) {
+		return stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND);
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List tooltip, boolean advanced) {
 		super.addInformation(stack, playerIn, tooltip, advanced);
 
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND)) {
+		if (isRechargeable(stack)) {
 			tooltip.add(StatCollector.translateToLocal("tooltip.rechargeable"));
 			ItemStack battery = ItemStack.loadItemStackFromNBT(stack.getTagCompound().getCompoundTag(rechargeableTagKey));
 			tooltip.addAll(battery.getTooltip(playerIn, advanced));
@@ -44,7 +48,18 @@ public class ItemBlasterRifle extends ItemBase {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 
-		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.consumeInventoryItem(ModItems.blasterAmmo)) {
+		boolean hadAmmo = false;
+		if (playerIn.capabilities.isCreativeMode) {
+			hadAmmo = true;
+		} else {
+			if (isRechargeable(itemStackIn)) {
+				hadAmmo = true;
+			} else {
+				hadAmmo = playerIn.inventory.consumeInventoryItem(ModItems.blasterAmmo);
+			}
+		}
+
+		if (hadAmmo) {
 			worldIn.playSoundAtEntity(playerIn, "testmod:launchBlaster", 0.5f, 0.4f / (itemRand.nextFloat() * 0.4f + 0.8f));
 
 			if (!worldIn.isRemote) {
@@ -154,7 +169,7 @@ public class ItemBlasterRifle extends ItemBase {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack) {
-		if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND)) {
+		if (isRechargeable(itemStack)) {
 			ItemStack copy = itemStack.copy();
 			copy.getTagCompound().removeTag(rechargeableTagKey);
 			return copy;
