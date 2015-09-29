@@ -11,6 +11,7 @@
   "credits": "",
   "logoFile": "assets/testmod/textures/gui/logo.png",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["ThermalExpansion"],
+  "useDependencyInformation": "true"
 }
 ]

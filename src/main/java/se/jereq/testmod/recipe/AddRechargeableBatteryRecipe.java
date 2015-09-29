@@ -1,7 +1,10 @@
 package se.jereq.testmod.recipe;
 
+import cofh.thermalexpansion.block.TEBlocks;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +13,26 @@ import net.minecraftforge.common.util.Constants;
 import se.jereq.testmod.init.ModItems;
 import se.jereq.testmod.item.ItemBlasterRifle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddRechargeableBatteryRecipe implements IRecipe {
+
+	private List<Item> batteryItems = new ArrayList<Item>();
+
+	public AddRechargeableBatteryRecipe() {
+		batteryItems.add(Items.redstone);
+		batteryItems.add(ModItems.blasterAmmo);
+
+		if (Loader.isModLoaded("ThermalExpansion")) {
+			batteryItems.add(Item.getItemFromBlock(TEBlocks.blockCell));
+		}
+	}
+
+	private boolean isRechargeableBattery(ItemStack itemStack) {
+		return batteryItems.contains(itemStack.getItem());
+	}
+
 	@Override
 	public boolean matches(InventoryCrafting inventory, World worldIn) {
 		int slots = inventory.getSizeInventory();
@@ -34,7 +56,7 @@ public class AddRechargeableBatteryRecipe implements IRecipe {
 				}
 
 				foundNonRechargeableRifle = true;
-			} else if (ingredient.getItem() == ModItems.blasterAmmo || ingredient.getItem() == Items.redstone) {
+			} else if (isRechargeableBattery(ingredient)) {
 				if (foundBattery) {
 					return false;
 				}
@@ -71,7 +93,7 @@ public class AddRechargeableBatteryRecipe implements IRecipe {
 				}
 
 				foundNonRechargeableRifle = ingredient;
-			} else if (ingredient.getItem() == ModItems.blasterAmmo || ingredient.getItem() == Items.redstone) {
+			} else if (isRechargeableBattery(ingredient)) {
 				if (foundBattery != null) {
 					return null;
 				}
