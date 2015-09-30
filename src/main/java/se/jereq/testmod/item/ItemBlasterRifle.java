@@ -1,5 +1,7 @@
 package se.jereq.testmod.item;
 
+import cofh.thermalexpansion.block.cell.ItemBlockCell;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,12 +14,14 @@ import net.minecraftforge.common.util.Constants;
 import se.jereq.testmod.CreativeTab;
 import se.jereq.testmod.entity.EntityBlasterBolt;
 import se.jereq.testmod.init.ModItems;
+import se.jereq.testmod.reference.Reference;
 
 import java.util.List;
 
 public class ItemBlasterRifle extends ItemBase {
 
 	public static final String rechargeableTagKey = "RechargeableBattery";
+	private static final int energyPerShot = 100;
 
 	public ItemBlasterRifle() {
 		super("blasterRifle");
@@ -29,6 +33,25 @@ public class ItemBlasterRifle extends ItemBase {
 
 	public boolean isRechargeable(ItemStack stack) {
 		return stack.hasTagCompound() && stack.getTagCompound().hasKey(rechargeableTagKey, Constants.NBT.TAG_COMPOUND);
+	}
+
+	private boolean useBatteryCharge(ItemStack stack) {
+		ItemStack battery = ItemStack.loadItemStackFromNBT(stack.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
+
+		if (Loader.isModLoaded(Reference.TE_MOD_ID) && battery.getItem() instanceof ItemBlockCell) {
+			ItemBlockCell itemBlockCell = (ItemBlockCell)battery.getItem();
+
+			int simulatedExtractedEnergy = itemBlockCell.extractEnergy(battery, energyPerShot, true);
+			if (simulatedExtractedEnergy == energyPerShot) {
+				itemBlockCell.extractEnergy(battery, energyPerShot, false);
+
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
 	}
 
 	@Override
@@ -48,15 +71,13 @@ public class ItemBlasterRifle extends ItemBase {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
 
-		boolean hadAmmo = false;
+		boolean hadAmmo;
 		if (playerIn.capabilities.isCreativeMode) {
 			hadAmmo = true;
+		} else if (isRechargeable(itemStackIn)) {
+			hadAmmo = useBatteryCharge(itemStackIn);
 		} else {
-			if (isRechargeable(itemStackIn)) {
-				hadAmmo = true;
-			} else {
-				hadAmmo = playerIn.inventory.consumeInventoryItem(ModItems.blasterAmmo);
-			}
+			hadAmmo = playerIn.inventory.consumeInventoryItem(ModItems.blasterAmmo);
 		}
 
 		if (hadAmmo) {

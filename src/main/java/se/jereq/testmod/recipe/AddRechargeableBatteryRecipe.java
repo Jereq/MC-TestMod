@@ -12,19 +12,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import se.jereq.testmod.init.ModItems;
 import se.jereq.testmod.item.ItemBlasterRifle;
+import se.jereq.testmod.reference.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddRechargeableBatteryRecipe implements IRecipe {
 
-	private List<Item> batteryItems = new ArrayList<Item>();
+	private List<Item> batteryItems = new ArrayList<>();
 
 	public AddRechargeableBatteryRecipe() {
 		batteryItems.add(Items.redstone);
 		batteryItems.add(ModItems.blasterAmmo);
 
-		if (Loader.isModLoaded("ThermalExpansion")) {
+		if (Loader.isModLoaded(Reference.TE_MOD_ID)) {
 			batteryItems.add(Item.getItemFromBlock(TEBlocks.blockCell));
 		}
 	}
