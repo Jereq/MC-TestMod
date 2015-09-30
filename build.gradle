@@ -38,6 +38,18 @@ repositories {
         name 'chickenbones'
         url "http://chickenbones.net/maven/"
     }
+    ivy {
+        name "CoFHCore"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2246/920/[module]-[revision].[ext]"
+    }
+    ivy {
+        name "ThermalFoundation"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2246/923/[module]-[revision].[ext]"
+    }
+    ivy {
+        name "ThermalExpansion"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2246/932/[module]-[revision].[ext]"
+    }
 }
 
 dependencies {
@@ -60,6 +72,10 @@ dependencies {
     // http://chickenbones.net/maven
     compile "codechicken:CodeChickenCore:1.7.10-1.0.7.46:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.111:dev"
+
+    compile group: 'cofh', name: 'CoFHCore', version: '[1.7.10]3.0.3-303-dev', ext: 'jar'
+    compile group: 'cofh', name: 'ThermalFoundation', version: '[1.7.10]1.2.0-102-dev', ext: 'jar'
+    compile group: 'cofh', name: 'ThermalExpansion', version: '[1.7.10]4.0.3B1-218-dev', ext: 'jar'
 }
 
 processResources
