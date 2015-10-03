@@ -1,7 +1,9 @@
 package se.jereq.testmod.item;
 
+import cofh.api.energy.IEnergyContainerItem;
 import cofh.thermalexpansion.block.cell.ItemBlockCell;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,7 +20,8 @@ import se.jereq.testmod.reference.Reference;
 
 import java.util.List;
 
-public class ItemBlasterRifle extends ItemBase {
+@Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = Reference.TE_MOD_ID, striprefs = true)
+public class ItemBlasterRifle extends ItemBase implements IEnergyContainerItem {
 
 	public static final String rechargeableTagKey = "RechargeableBattery";
 	private static final int energyPerShot = 100;
@@ -202,5 +205,69 @@ public class ItemBlasterRifle extends ItemBase {
 	@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
 		return false;
+	}
+
+	@Optional.Method(modid = Reference.TE_MOD_ID)
+	@Override
+	public int receiveEnergy(ItemStack itemStack, int i, boolean b) {
+		if (isRechargeable(itemStack)) {
+			ItemStack battery = ItemStack.loadItemStackFromNBT(itemStack.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
+
+			if (battery.getItem() instanceof ItemBlockCell) {
+				ItemBlockCell itemBlockCell = (ItemBlockCell) battery.getItem();
+
+				return itemBlockCell.receiveEnergy(battery, i, b);
+			}
+		}
+
+		return 0;
+	}
+
+	@Optional.Method(modid = Reference.TE_MOD_ID)
+	@Override
+	public int extractEnergy(ItemStack itemStack, int i, boolean b) {
+		if (isRechargeable(itemStack)) {
+			ItemStack battery = ItemStack.loadItemStackFromNBT(itemStack.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
+
+			if (battery.getItem() instanceof ItemBlockCell) {
+				ItemBlockCell itemBlockCell = (ItemBlockCell) battery.getItem();
+
+				return itemBlockCell.extractEnergy(battery, i, b);
+			}
+		}
+
+		return 0;
+	}
+
+	@Optional.Method(modid = Reference.TE_MOD_ID)
+	@Override
+	public int getEnergyStored(ItemStack itemStack) {
+		if (isRechargeable(itemStack)) {
+			ItemStack battery = ItemStack.loadItemStackFromNBT(itemStack.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
+
+			if (battery.getItem() instanceof ItemBlockCell) {
+				ItemBlockCell itemBlockCell = (ItemBlockCell) battery.getItem();
+
+				return itemBlockCell.getEnergyStored(battery);
+			}
+		}
+
+		return 0;
+	}
+
+	@Optional.Method(modid = Reference.TE_MOD_ID)
+	@Override
+	public int getMaxEnergyStored(ItemStack itemStack) {
+		if (isRechargeable(itemStack)) {
+			ItemStack battery = ItemStack.loadItemStackFromNBT(itemStack.getTagCompound().getCompoundTag(ItemBlasterRifle.rechargeableTagKey));
+
+			if (battery.getItem() instanceof ItemBlockCell) {
+				ItemBlockCell itemBlockCell = (ItemBlockCell) battery.getItem();
+
+				return itemBlockCell.getMaxEnergyStored(battery);
+			}
+		}
+
+		return 0;
 	}
 }
